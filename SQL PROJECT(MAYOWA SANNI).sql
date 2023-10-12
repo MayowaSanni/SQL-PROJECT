@@ -5,7 +5,7 @@ select * from dimsalesterritory;
 select * from factresellersales;
 select * from diminvoices;
 
--- QUESTION 1 
+-- What is the highest transaction of each month in 2012 for the product Sport-100 Helmet, Red?
 select * from factresellersales;
 select * from dimproduct;
   SELECT
@@ -24,7 +24,8 @@ select * from dimproduct;
     AND YEAR(fs1.OrderDate) = 2012 AND fs2.SalesAmount IS NULL ORDER BY
   SalesAmount DESC;
  
- -- QUESTION 2 
+ -- What is the lowest revenue-generating product for each month in 2012?
+
 WITH MonthlyProductRevenue AS (
     SELECT MONTHNAME(rs.OrderDate) AS Month,
         dt.SalesTerritoryCountry,
@@ -43,7 +44,7 @@ FROM (SELECT Month, SalesTerritoryCountry, ProductName, SalesAmount,
     FROM MonthlyProductRevenue) ranked
 WHERE RowNum = 1 ORDER BY SalesAmount DESC;
 
- -- QUESTION 3  Find all the products and their Total Sales Amount by Month of order which does have sales in 2012. 
+ -- Find all the products and their Total Sales Amount by Month of order which does have sales in 2012. 
 select * from dimproduct;
 select * from factresellersales;
 SELECT d.ProductKey, SUM(f.SalesAmount) AS SalesAmount,
@@ -54,7 +55,7 @@ WHERE YEAR(f.OrderDate) = 2012
 GROUP BY d.ProductKey, MONTHNAME(f.OrderDate)
 ORDER BY d.ProductKey, OrderMonth;
 
--- QUESTION 4 
+-- What is customers age?
 select * from DimCustomer;
 SELECT MaritalStatus, Gender,
       YEAR(CURDATE()) - YEAR(BirthDate) AS Age,
@@ -63,7 +64,7 @@ SELECT MaritalStatus, Gender,
   CASE WHEN YEAR (CURDATE()) - YEAR(BirthDate) >= 50 THEN 'Yes' ELSE 'No' END AS AgeAbove50
 FROM DimCustomer;
 
--- QUESTION 5
+-- What is 2022 monthly basis Annual Recurring Revenue (ARR) of products named EOR Monthly and EOR Yearly**?*
 SELECT
     MONTH(invoice_date) AS InvoiceMonth,
     SUM(amount_usd) AS MRR_usd,
